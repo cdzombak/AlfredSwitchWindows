@@ -131,7 +131,8 @@ set proc to item 1 of argv
 set tabIndex to item 2 of argv as integer
 set windowName to item 3 of argv
 
-if proc = "Google Chrome" then	tell application "Google Chrome"		activate		set win_List to every window		repeat with win in win_List			if title of win = windowName then				set index of win to 1				set active tab index of win to tabIndex			end if		end repeat	end tellend if
+if proc = "Google Chrome" then	tell application "Google Chrome"		activate		set win_List to every window		repeat with win in win_List			if title of win = windowName then				set index of win to 1				set active tab index of win to tabIndex			end if		end repeat
+		activate	end tellend if
 
 end alfred_script
 
