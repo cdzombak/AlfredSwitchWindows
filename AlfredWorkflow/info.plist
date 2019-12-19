@@ -271,13 +271,13 @@
 		</array>
 	</dict>
 	<key>createdby</key>
-	<string>Igor Mandrigin</string>
+	<string>Igor Mandrigin + Chris Dzombak</string>
 	<key>description</key>
 	<string>Switch between windows &amp; tabs on the same desktop</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Swift Window Switcher</string>
+	<string>Swift Window Switcher (cdzombak's fork)</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -1167,6 +1167,6 @@ Inspration is taken from "Windows Switcher" workflow from Emanuele Munafò (kudo
 	<key>version</key>
 	<string>0.3.1</string>
 	<key>webaddress</key>
-	<string>mandrigin.ru</string>
+	<string>https://github.com/cdzombak/AlfredSwitchWindows</string>
 </dict>
 </plist>
