@@ -1165,7 +1165,7 @@ Inspration is taken from "Windows Switcher" workflow from Emanuele Munafò (kudo
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>0.3.1</string>
+	<string>0.4.0-cdzombak</string>
 	<key>webaddress</key>
 	<string>https://github.com/cdzombak/AlfredSwitchWindows</string>
 </dict>
