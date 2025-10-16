@@ -3,3 +3,4 @@ EnumWindows.xcodeproj/xcuserdata/
 *.un~
 EnumWindows/EnumWindows
 xcuserdata/
+build.log

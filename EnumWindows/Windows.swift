@@ -1,4 +1,5 @@
 import Foundation
+import ApplicationServices
 
 class WindowInfoDict : Searchable, ProcessNameProtocol {
     private let windowInfoDict : Dictionary<NSObject, AnyObject>;

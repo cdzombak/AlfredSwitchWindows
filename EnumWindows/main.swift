@@ -1,4 +1,6 @@
 import Foundation
+import ApplicationServices
+import CoreGraphics
 
 /// Removes browser window from the list of windows and adds tabs to the results array
 func searchBrowserTabsIfNeeded(processName: String,
@@ -50,12 +52,15 @@ func handleCatalinaScreenRecordingPermission() {
     guard !firstWindow.hasName else {
         return
     }
-
-    let windowImage = CGWindowListCreateImage(.null, .optionIncludingWindow,
-                                              firstWindow.number,
-                                              [.boundsIgnoreFraming, .bestResolution])
-    if windowImage == nil {
-        debugPrint("Before using this app, you need to give permission in System Preferences > Security & Privacy > Privacy > Screen Recording.\nPlease authorize and re-launch.")
+    
+    let permissionMessage = "Before using this app, you need to give permission in System Preferences > Security & Privacy > Privacy > Screen Recording.\nPlease authorize and re-launch."
+    
+    guard #available(macOS 10.15, *) else {
+        return
+    }
+    
+    guard CGPreflightScreenCaptureAccess() else {
+        debugPrint(permissionMessage)
         exit(1)
     }
 }
