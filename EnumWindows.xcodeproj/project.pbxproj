@@ -144,7 +144,7 @@
 				TargetAttributes = {
 					74BA9E391E53270300C78C58 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 3876L43C26;
+						DevelopmentTeam = 4QNZ8566GP;
 						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 					};
@@ -282,7 +282,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				DEVELOPMENT_TEAM = 3876L43C26;
+				DEVELOPMENT_TEAM = 4QNZ8566GP;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.mandrigin.EnumWindows;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -294,7 +294,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				DEVELOPMENT_TEAM = 3876L43C26;
+				DEVELOPMENT_TEAM = 4QNZ8566GP;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.mandrigin.EnumWindows;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
