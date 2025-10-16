@@ -277,7 +277,7 @@
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Swift Window Switcher (cdzombak's fork)</string>
+	<string>Swift Window Switcher (cdzombak&apos;s fork)</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -1262,7 +1262,7 @@ Inspration is taken from &quot;Windows Switcher&quot; workflow from Emanuele Mun
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>0.4.1-cdzombak</string>
+	<string>0.4.2-cdzombak</string>
 	<key>webaddress</key>
 	<string>https://github.com/cdzombak/AlfredSwitchWindows</string>
 </dict>
