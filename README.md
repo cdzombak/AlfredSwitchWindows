@@ -16,7 +16,7 @@ Alfred workflow to switch between open windows in the system and Safari tabs.
 
 ## Features
 - Switch between the open windows using Alfred
-- Switch between the Safari tabs using Alfred
+- Switch between tabs in Safari, Chrome, Brave, Opera, iTerm, and Ghostty using Alfred
 - Very quick comparing to the alternative implementations because of the native search implementation.
 
 ## Releases
