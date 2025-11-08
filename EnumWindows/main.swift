@@ -20,6 +20,24 @@ func searchBrowserTabsIfNeeded(processName: String,
     return activeWindowsExceptBrowser
 }
 
+func searchNativeTabsIfNeeded(processName: String,
+                              windows: [WindowInfoDict],
+                              query: String,
+                              results: inout [[AlfredItem]]) -> [WindowInfoDict] {
+    guard let nativeApplication = NativeTabApplication.connect(processName: processName) else {
+        return windows
+    }
+    
+    let nativeTabs = nativeApplication.tabs
+    guard !nativeTabs.isEmpty else {
+        return windows
+    }
+    
+    let remainingWindows = windows.filter { $0.processName != processName }
+    results.append(nativeTabs.search(query: query))
+    return remainingWindows
+}
+
 func search(query: String, onlyTabs: Bool) {
     var results : [[AlfredItem]] = []
     
@@ -34,6 +52,11 @@ func search(query: String, onlyTabs: Bool) {
                                                      query: query,
                                                      results: &results) // inout!
     }
+    
+    allActiveWindows = searchNativeTabsIfNeeded(processName: "Ghostty",
+                                               windows: allActiveWindows,
+                                               query: query,
+                                               results: &results)
     
     if !onlyTabs {
         results.append(allActiveWindows.search(query: query))
