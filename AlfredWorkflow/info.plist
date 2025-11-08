@@ -4,8 +4,6 @@
 <dict>
 	<key>bundleid</key>
 	<string>ru.mandrigin.alfred.sww</string>
-	<key>category</key>
-	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>0486C218-68A8-4897-8F4E-B51741037678</key>
@@ -79,6 +77,16 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>4B55AF9F-D256-4871-B524-9938AD009D7E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>AD78D876-2E08-4D08-AEBC-73EEEACE1C7F</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -170,6 +178,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>A5DC0789-027C-4177-BACF-CE2E7C089CA7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>AD78D876-2E08-4D08-AEBC-73EEEACE1C7F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2F1A5536-7422-4939-A294-BAAEBF6E2D1F</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -271,13 +292,13 @@
 		</array>
 	</dict>
 	<key>createdby</key>
-	<string>Igor Mandrigin + Chris Dzombak</string>
+	<string>Igor Mandrigin</string>
 	<key>description</key>
 	<string>Switch between windows &amp; tabs on the same desktop</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Swift Window Switcher (cdzombak&apos;s fork)</string>
+	<string>Swift Window Switcher</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -286,36 +307,16 @@
 				<key>applescript</key>
 				<string>on alfred_script(q)
 
-set argv to extract_argv(q, &quot;|||||&quot;)
+set argv to extract_argv(q, "|||||")
 
-set proc to item 1 of argv
-set tabIndex to item 2 of argv as integer
-set windowName to item 3 of argv
+set proc to item 1 of argvset tabIndex to item 2 of argv as integerset windowName to item 3 of argv
 
-if proc is not &quot;Google Chrome Canary&quot; then
-	display alert &quot;This AppleScript works for Google Chrome Canary only.&quot; message &quot;Check the Alfred workflow diagram which triggered this script.&quot; as critical buttons {&quot;Cancel&quot;} default button &quot;Cancel&quot; cancel button &quot;Cancel&quot;
-end if
-
-tell application &quot;Google Chrome Canary&quot;
-	activate
-	set win_List to every window
-	repeat with win in win_List
-		if title of win = windowName then
-			set index of win to 1
-			set active tab index of win to tabIndex
-		end if
-	end repeat
-end tell
+if proc is not "Google Chrome Canary" then	display alert "This AppleScript works for Google Chrome Canary only." message "Check the Alfred workflow diagram which triggered this script." as critical buttons {"Cancel"} default button "Cancel" cancel button "Cancel"end if
+tell application "Google Chrome Canary"	activate	set win_List to every window	repeat with win in win_List		if title of win = windowName then			set index of win to 1			set active tab index of win to tabIndex		end if	end repeatend tell
 
 end alfred_script
 
-on extract_argv(source_string, new_delimiter)
-	set backup to AppleScript&apos;s text item delimiters
-	set AppleScript&apos;s text item delimiters to new_delimiter
-	set argv to every text item of source_string
-	set AppleScript&apos;s text item delimiters to backup
-	return argv
-end extract_argv</string>
+on extract_argv(source_string, new_delimiter)	set backup to AppleScript's text item delimiters	set AppleScript's text item delimiters to new_delimiter	set argv to every text item of source_string	set AppleScript's text item delimiters to backup	return argvend extract_argv</string>
 				<key>cachescript</key>
 				<true/>
 			</dict>
@@ -351,36 +352,18 @@ end extract_argv</string>
 				<key>applescript</key>
 				<string>on alfred_script(q)
 
-set argv to extract_argv(q, &quot;|||||&quot;)
+set argv to extract_argv(q, "|||||")
 
 set proc to item 1 of argv
 set tabIndex to item 2 of argv as integer
 set windowName to item 3 of argv
 
-if proc is not &quot;Google Chrome&quot; then
-	display alert &quot;This AppleScript works for Google Chrome only.&quot; message &quot;Check the Alfred workflow diagram which triggered this script.&quot; as critical buttons {&quot;Cancel&quot;} default button &quot;Cancel&quot; cancel button &quot;Cancel&quot;
-end if
-
-tell application &quot;Google Chrome&quot;
-	activate
-	set win_List to every window
-	repeat with win in win_List
-		if title of win = windowName then
-			set index of win to 1
-			set active tab index of win to tabIndex
-		end if
-	end repeat
-end tell
+if proc is not "Google Chrome" then	display alert "This AppleScript works for Google Chrome only." message "Check the Alfred workflow diagram which triggered this script." as critical buttons {"Cancel"} default button "Cancel" cancel button "Cancel"end if
+tell application "Google Chrome"	activate	set win_List to every window	repeat with win in win_List		if title of win = windowName then			set index of win to 1			set active tab index of win to tabIndex		end if	end repeatend tell
 
 end alfred_script
 
-on extract_argv(source_string, new_delimiter)
-	set backup to AppleScript&apos;s text item delimiters
-	set AppleScript&apos;s text item delimiters to new_delimiter
-	set argv to every text item of source_string
-	set AppleScript&apos;s text item delimiters to backup
-	return argv
-end extract_argv</string>
+on extract_argv(source_string, new_delimiter)	set backup to AppleScript's text item delimiters	set AppleScript's text item delimiters to new_delimiter	set argv to every text item of source_string	set AppleScript's text item delimiters to backup	return argvend extract_argv</string>
 				<key>cachescript</key>
 				<true/>
 			</dict>
@@ -422,9 +405,9 @@ end extract_argv</string>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>escaping</key>
-				<integer>126</integer>
+				<integer>68</integer>
 				<key>keyword</key>
 				<string>ww</string>
 				<key>queuedelaycustom</key>
@@ -438,7 +421,7 @@ end extract_argv</string>
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>./EnumWindows --search-tabs=&quot;{query}&quot;</string>
+				<string>./EnumWindows --search-tabs="{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -465,45 +448,12 @@ end extract_argv</string>
 				<key>applescript</key>
 				<string>on alfred_script(q)
 
-set argv to extract_argv(q, &quot;|||||&quot;)
-
-set proc to item 1 of argv
-set tabIndex to item 2 of argv as integer
-set windowName to item 3 of argv
-
-if proc is not &quot;iTerm&quot; then
-	display alert &quot;This AppleScript works for iTerm only.&quot; message &quot;Check the Alfred workflow diagram which triggered this script.&quot; as critical buttons {&quot;Cancel&quot;} default button &quot;Cancel&quot; cancel button &quot;Cancel&quot;
-end if
-
-try
-	tell application &quot;System Events&quot;
-		with timeout of 0.1 seconds
-			-- nb. iTerm&apos;s process is &quot;iTerm2&quot; even though application name is &quot;iTerm&quot;
-			tell process &quot;iTerm2&quot; to perform action &quot;AXRaise&quot; of window windowName
-		end timeout
-	end tell
-end try
-
-tell application &quot;iTerm&quot;
-	activate
-end tell
-
-
-tell front window of application &quot;iTerm&quot;
-	tell tab tabIndex
-		select
-	end tell
-end tell
+set argv to extract_argv(q, "|||||")set proc to item 1 of argvset tabIndex to item 2 of argv as integerset windowName to item 3 of argvif proc is not "iTerm" then	display alert "This AppleScript works for iTerm only." message "Check the Alfred workflow diagram which triggered this script." as critical buttons {"Cancel"} default button "Cancel" cancel button "Cancel"end iftry	tell application "System Events"		with timeout of 0.1 seconds
+			-- nb. iTerm's process is "iTerm2" even though application name is "iTerm"			tell process "iTerm2" to perform action "AXRaise" of window windowName		end timeout	end tellend trytell application "iTerm"	activateend telltell front window of application "iTerm"	tell tab tabIndex		select	end tellend tell
 
 end alfred_script
 
-on extract_argv(source_string, new_delimiter)
-	set backup to AppleScript&apos;s text item delimiters
-	set AppleScript&apos;s text item delimiters to new_delimiter
-	set argv to every text item of source_string
-	set AppleScript&apos;s text item delimiters to backup
-	return argv
-end extract_argv</string>
+on extract_argv(source_string, new_delimiter)	set backup to AppleScript's text item delimiters	set AppleScript's text item delimiters to new_delimiter	set argv to every text item of source_string	set AppleScript's text item delimiters to backup	return argvend extract_argv</string>
 				<key>cachescript</key>
 				<true/>
 			</dict>
@@ -547,16 +497,16 @@ end extract_argv</string>
 				<key>applescript</key>
 				<string>on alfred_script(q)
 
-set argv to extract_argv(q, &quot;|||||&quot;)
+set argv to extract_argv(q, "|||||")
 
 set proc to item 1 of argv
 set tabIndex to item 2 of argv as integer
 set windowName to item 3 of argv
 
 try
-	tell application &quot;System Events&quot;
+	tell application "System Events"
 		with timeout of 0.1 seconds
-			tell process proc to perform action &quot;AXRaise&quot; of window windowName
+			tell process proc to perform action "AXRaise" of window windowName 
 		end timeout
 	end tell
 end try
@@ -565,21 +515,15 @@ tell application proc
     activate
 end tell
 
-if proc = &quot;Safari Technology Preview&quot; then
-    tell front window of application &quot;Safari Technology Preview&quot;
+if proc = "Safari Technology Preview" then
+    tell front window of application "Safari Technology Preview"
 		set current tab to tab tabIndex
 	end tell
 end if
 
 end alfred_script
 
-on extract_argv(source_string, new_delimiter)
-	set backup to AppleScript&apos;s text item delimiters
-	set AppleScript&apos;s text item delimiters to new_delimiter
-	set argv to every text item of source_string
-	set AppleScript&apos;s text item delimiters to backup
-	return argv
-end extract_argv</string>
+on extract_argv(source_string, new_delimiter)	set backup to AppleScript's text item delimiters	set AppleScript's text item delimiters to new_delimiter	set argv to every text item of source_string	set AppleScript's text item delimiters to backup	return argvend extract_argv</string>
 				<key>cachescript</key>
 				<true/>
 			</dict>
@@ -607,8 +551,6 @@ end extract_argv</string>
 				<integer>0</integer>
 				<key>hotmod</key>
 				<integer>0</integer>
-				<key>hotstring</key>
-				<string></string>
 				<key>leftcursor</key>
 				<false/>
 				<key>modsmode</key>
@@ -670,7 +612,7 @@ end extract_argv</string>
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>./EnumWindows --search=&quot;{query}&quot;</string>
+				<string>./EnumWindows --search="{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -694,6 +636,83 @@ end extract_argv</string>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>applescript</key>
+				<string>on alfred_script(q)
+
+    set argv to extract_argv(q, "|||||")
+
+    set proc to item 1 of argv
+    set tabIndex to item 2 of argv as integer
+    set windowName to item 3 of argv
+
+    if proc is not "Ghostty" then
+        display alert "This AppleScript works for Ghostty only." message "Check the Alfred workflow diagram which triggered this script." as critical buttons {"Cancel"} default button "Cancel" cancel button "Cancel"
+    end if
+
+    -- raise the requested window so System Events can find its tab group
+    try
+        tell application "System Events"
+            with timeout of 0.1 seconds
+                tell process "Ghostty" to perform action "AXRaise" of window windowName
+            end timeout
+        end tell
+    end try
+
+    tell application "Ghostty" to activate
+
+    tell application "System Events"
+        tell process "Ghostty"
+            set targetWindow to missing value
+            try
+                set targetWindow to first window whose name is windowName
+            on error
+                try
+                    set targetWindow to front window
+                end try
+            end try
+            if targetWindow is missing value then return
+
+            -- Ghostty uses native macOS tabs, so look for the tab group and press the right button
+            set tabGroups to {}
+            try
+                set tabGroups to tab groups of targetWindow
+            end try
+            if tabGroups is {} then return
+
+            set tabButtons to {}
+            try
+                set tabButtons to radio buttons of item 1 of tabGroups
+            end try
+            if tabButtons is {} then return
+            if tabIndex &gt; (count of tabButtons) then return
+
+            tell item tabIndex of tabButtons to perform action "AXPress"
+        end tell
+    end tell
+
+end alfred_script
+
+
+on extract_argv(source_string, new_delimiter)
+    set backup to AppleScript's text item delimiters
+    set AppleScript's text item delimiters to new_delimiter
+    set argv to every text item of source_string
+    set AppleScript's text item delimiters to backup
+    return argv
+end extract_argv</string>
+				<key>cachescript</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.applescript</string>
+			<key>uid</key>
+			<string>2F1A5536-7422-4939-A294-BAAEBF6E2D1F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>inputstring</key>
 				<string>{query}</string>
 				<key>matchcasesensitive</key>
@@ -713,19 +732,38 @@ end extract_argv</string>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>inputstring</key>
+				<string>{query}</string>
+				<key>matchcasesensitive</key>
+				<false/>
+				<key>matchmode</key>
+				<integer>2</integer>
+				<key>matchstring</key>
+				<string>Ghostty\|.*</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>AD78D876-2E08-4D08-AEBC-73EEEACE1C7F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>applescript</key>
 				<string>on alfred_script(q)
 
-set argv to extract_argv(q, &quot;|||||&quot;)
+set argv to extract_argv(q, "|||||")
 
 set proc to item 1 of argv
 set tabIndex to item 2 of argv as integer
 set windowName to item 3 of argv
 
 try
-	tell application &quot;System Events&quot;
+	tell application "System Events"
 		with timeout of 0.1 seconds
-			tell process proc to perform action &quot;AXRaise&quot; of window windowName
+			tell process proc to perform action "AXRaise" of window windowName 
 		end timeout
 	end tell
 end try
@@ -734,21 +772,15 @@ tell application proc
     activate
 end tell
 
-if proc = &quot;Safari&quot; then
-    tell front window of application &quot;Safari&quot;
+if proc = "Safari" then
+    tell front window of application "Safari"
 		set current tab to tab tabIndex
 	end tell
 end if
 
 end alfred_script
 
-on extract_argv(source_string, new_delimiter)
-	set backup to AppleScript&apos;s text item delimiters
-	set AppleScript&apos;s text item delimiters to new_delimiter
-	set argv to every text item of source_string
-	set AppleScript&apos;s text item delimiters to backup
-	return argv
-end extract_argv</string>
+on extract_argv(source_string, new_delimiter)	set backup to AppleScript's text item delimiters	set AppleScript's text item delimiters to new_delimiter	set argv to every text item of source_string	set AppleScript's text item delimiters to backup	return argvend extract_argv</string>
 				<key>cachescript</key>
 				<true/>
 			</dict>
@@ -765,16 +797,16 @@ end extract_argv</string>
 				<key>applescript</key>
 				<string>on alfred_script(q)
 
-set argv to extract_argv(q, &quot;|||||&quot;)
+set argv to extract_argv(q, "|||||")
 
 set proc to item 1 of argv
 set tabIndex to item 2 of argv as integer
 set windowName to item 3 of argv
 
 try
-	tell application &quot;System Events&quot;
+	tell application "System Events"
 		with timeout of 0.1 seconds
-			tell process proc to perform action &quot;AXRaise&quot; of window windowName
+			tell process proc to perform action "AXRaise" of window windowName 
 		end timeout
 	end tell
 end try
@@ -783,19 +815,11 @@ tell application proc
     activate
 end tell
 
-if proc = &quot;Opera&quot; then
-	tell application &quot;Opera&quot; to set active tab index of front window to tabIndex
-end if
+if proc = "Opera" then	tell application "Opera" to set active tab index of front window to tabIndexend if
 
 end alfred_script
 
-on extract_argv(source_string, new_delimiter)
-	set backup to AppleScript&apos;s text item delimiters
-	set AppleScript&apos;s text item delimiters to new_delimiter
-	set argv to every text item of source_string
-	set AppleScript&apos;s text item delimiters to backup
-	return argv
-end extract_argv</string>
+on extract_argv(source_string, new_delimiter)	set backup to AppleScript's text item delimiters	set AppleScript's text item delimiters to new_delimiter	set argv to every text item of source_string	set AppleScript's text item delimiters to backup	return argvend extract_argv</string>
 				<key>cachescript</key>
 				<true/>
 			</dict>
@@ -831,16 +855,16 @@ end extract_argv</string>
 				<key>applescript</key>
 				<string>on alfred_script(q)
 
-set argv to extract_argv(q, &quot;|||||&quot;)
+set argv to extract_argv(q, "|||||")
 
 set proc to item 1 of argv
 set tabIndex to item 2 of argv as integer
 set windowName to item 3 of argv
 
 try
-	tell application &quot;System Events&quot;
+	tell application "System Events"
 		with timeout of 0.1 seconds
-			tell process proc to perform action &quot;AXRaise&quot; of window windowName
+			tell process proc to perform action "AXRaise" of window windowName 
 		end timeout
 	end tell
 end try
@@ -851,13 +875,7 @@ end tell
 
 end alfred_script
 
-on extract_argv(source_string, new_delimiter)
-	set backup to AppleScript&apos;s text item delimiters
-	set AppleScript&apos;s text item delimiters to new_delimiter
-	set argv to every text item of source_string
-	set AppleScript&apos;s text item delimiters to backup
-	return argv
-end extract_argv</string>
+on extract_argv(source_string, new_delimiter)	set backup to AppleScript's text item delimiters	set AppleScript's text item delimiters to new_delimiter	set argv to every text item of source_string	set AppleScript's text item delimiters to backup	return argvend extract_argv</string>
 				<key>cachescript</key>
 				<true/>
 			</dict>
@@ -893,16 +911,16 @@ end extract_argv</string>
 				<key>applescript</key>
 				<string>on alfred_script(q)
 
-set argv to extract_argv(q, &quot;|||||&quot;)
+set argv to extract_argv(q, "|||||")
 
 set proc to item 1 of argv
 set tabIndex to item 2 of argv as integer
 set windowName to item 3 of argv
 
 try
-	tell application &quot;System Events&quot;
+	tell application "System Events"
 		with timeout of 0.1 seconds
-			tell process proc to perform action &quot;AXRaise&quot; of window windowName
+			tell process proc to perform action "AXRaise" of window windowName 
 		end timeout
 	end tell
 end try
@@ -911,19 +929,11 @@ tell application proc
     activate
 end tell
 
-if proc = &quot;Opera Beta&quot; then
-	tell application &quot;Opera Beta&quot; to set active tab index of front window to tabIndex
-end if
+if proc = "Opera Beta" then	tell application "Opera Beta" to set active tab index of front window to tabIndexend if
 
 end alfred_script
 
-on extract_argv(source_string, new_delimiter)
-	set backup to AppleScript&apos;s text item delimiters
-	set AppleScript&apos;s text item delimiters to new_delimiter
-	set argv to every text item of source_string
-	set AppleScript&apos;s text item delimiters to backup
-	return argv
-end extract_argv</string>
+on extract_argv(source_string, new_delimiter)	set backup to AppleScript's text item delimiters	set AppleScript's text item delimiters to new_delimiter	set argv to every text item of source_string	set AppleScript's text item delimiters to backup	return argvend extract_argv</string>
 				<key>cachescript</key>
 				<true/>
 			</dict>
@@ -940,16 +950,16 @@ end extract_argv</string>
 				<key>applescript</key>
 				<string>on alfred_script(q)
 
-set argv to extract_argv(q, &quot;|||||&quot;)
+set argv to extract_argv(q, "|||||")
 
 set proc to item 1 of argv
 set tabIndex to item 2 of argv as integer
 set windowName to item 3 of argv
 
 try
-	tell application &quot;System Events&quot;
+	tell application "System Events"
 		with timeout of 0.1 seconds
-			tell process proc to perform action &quot;AXRaise&quot; of window windowName
+			tell process proc to perform action "AXRaise" of window windowName 
 		end timeout
 	end tell
 end try
@@ -958,19 +968,11 @@ tell application proc
     activate
 end tell
 
-if proc = &quot;Opera Developer&quot; then
-	tell application &quot;Opera Developer&quot; to set active tab index of front window to tabIndex
-end if
+if proc = "Opera Developer" then	tell application "Opera Developer" to set active tab index of front window to tabIndexend if
 
 end alfred_script
 
-on extract_argv(source_string, new_delimiter)
-	set backup to AppleScript&apos;s text item delimiters
-	set AppleScript&apos;s text item delimiters to new_delimiter
-	set argv to every text item of source_string
-	set AppleScript&apos;s text item delimiters to backup
-	return argv
-end extract_argv</string>
+on extract_argv(source_string, new_delimiter)	set backup to AppleScript's text item delimiters	set AppleScript's text item delimiters to new_delimiter	set argv to every text item of source_string	set AppleScript's text item delimiters to backup	return argvend extract_argv</string>
 				<key>cachescript</key>
 				<true/>
 			</dict>
@@ -1006,16 +1008,16 @@ end extract_argv</string>
 				<key>applescript</key>
 				<string>on alfred_script(q)
 
-set argv to extract_argv(q, &quot;|||||&quot;)
+set argv to extract_argv(q, "|||||")
 
 set proc to item 1 of argv
 set tabIndex to item 2 of argv as integer
 set windowName to item 3 of argv
 
 try
-	tell application &quot;System Events&quot;
+	tell application "System Events"
 		with timeout of 0.1 seconds
-			tell process proc to perform action &quot;AXRaise&quot; of window windowName
+			tell process proc to perform action "AXRaise" of window windowName 
 		end timeout
 	end tell
 end try
@@ -1024,19 +1026,11 @@ tell application proc
     activate
 end tell
 
-if proc = &quot;Brave Browser&quot; then
-	tell application &quot;Brave Browser&quot; to set active tab index of front window to tabIndex
-end if
+if proc = "Brave Browser" then	tell application "Brave Browser" to set active tab index of front window to tabIndexend if
 
 end alfred_script
 
-on extract_argv(source_string, new_delimiter)
-	set backup to AppleScript&apos;s text item delimiters
-	set AppleScript&apos;s text item delimiters to new_delimiter
-	set argv to every text item of source_string
-	set AppleScript&apos;s text item delimiters to backup
-	return argv
-end extract_argv</string>
+on extract_argv(source_string, new_delimiter)	set backup to AppleScript's text item delimiters	set AppleScript's text item delimiters to new_delimiter	set argv to every text item of source_string	set AppleScript's text item delimiters to backup	return argvend extract_argv</string>
 				<key>cachescript</key>
 				<true/>
 			</dict>
@@ -1068,11 +1062,11 @@ end extract_argv</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>Workflow for switching between active windows in the system and Safari/Opera/Brave/Chrome/iTerm tabs.
+	<string>Workflow for switching between active windows in the system and Safari/Opera/Brave/Chrome/iTerm/Ghostty tabs.
 
-❗To make this workflow work, don&apos;t forget to allow Alfred to control your apps (Security &amp; Privacy → Accessibility).
+❗To make this workflow work, don't forget to allow Alfred to control your apps (Security &amp; Privacy → Accessibility) and grant Screen Recording permissions.
 
-Inspration is taken from &quot;Windows Switcher&quot; workflow from Emanuele Munafò (kudozz! 🔥) [1].
+Inspration is taken from "Windows Switcher" workflow from Emanuele Munafò (kudozz! 🔥) [1].
 
 [1]: https://www.alfredforum.com/topic/9326-a-simple-windows-switcher/</string>
 	<key>uidata</key>
@@ -1080,190 +1074,208 @@ Inspration is taken from &quot;Windows Switcher&quot; workflow from Emanuele Mun
 		<key>0486C218-68A8-4897-8F4E-B51741037678</key>
 		<dict>
 			<key>xpos</key>
-			<integer>490</integer>
+			<real>490</real>
 			<key>ypos</key>
-			<integer>350</integer>
+			<real>350</real>
 		</dict>
 		<key>0EC23CAD-38F5-4A2D-B28A-A23685F1E575</key>
 		<dict>
 			<key>xpos</key>
-			<integer>450</integer>
+			<real>450</real>
 			<key>ypos</key>
-			<integer>170</integer>
+			<real>170</real>
 		</dict>
 		<key>14FDFA95-B03E-42F9-8F94-0DD482CBCE47</key>
 		<dict>
 			<key>xpos</key>
-			<integer>390</integer>
+			<real>390</real>
 			<key>ypos</key>
-			<integer>280</integer>
+			<real>285</real>
 		</dict>
 		<key>2A4DC329-9524-4CB9-BB77-7410877C746A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>10</integer>
+			<real>30</real>
 			<key>ypos</key>
-			<integer>350</integer>
+			<real>350</real>
+		</dict>
+		<key>2F1A5536-7422-4939-A294-BAAEBF6E2D1F</key>
+		<dict>
+			<key>note</key>
+			<string>Ghostty</string>
+			<key>xpos</key>
+			<real>805</real>
+			<key>ypos</key>
+			<real>390</real>
 		</dict>
 		<key>4B55AF9F-D256-4871-B524-9938AD009D7E</key>
 		<dict>
 			<key>xpos</key>
-			<integer>490</integer>
+			<real>490</real>
 			<key>ypos</key>
-			<integer>400</integer>
+			<real>400</real>
 		</dict>
 		<key>5A3D96FB-36AB-4CAC-A6A5-58E1B4BEA15E</key>
 		<dict>
 			<key>note</key>
 			<string>Google Chrome Canary</string>
 			<key>xpos</key>
-			<integer>500</integer>
+			<real>500</real>
 			<key>ypos</key>
-			<integer>20</integer>
+			<real>20</real>
 		</dict>
 		<key>5CECCEA1-2E2E-4EE6-A6E7-76A65C2FE3A2</key>
 		<dict>
 			<key>note</key>
 			<string>Opera</string>
 			<key>xpos</key>
-			<integer>550</integer>
+			<real>550</real>
 			<key>ypos</key>
-			<integer>590</integer>
+			<real>590</real>
 		</dict>
 		<key>7686C74A-A33F-49C2-8231-40F1569A481A</key>
 		<dict>
 			<key>note</key>
 			<string>Google Chrome</string>
 			<key>xpos</key>
-			<integer>540</integer>
+			<real>540</real>
 			<key>ypos</key>
-			<integer>160</integer>
+			<real>160</real>
 		</dict>
 		<key>8F761ADE-CFDB-4C24-A4A5-9065084AC825</key>
 		<dict>
 			<key>note</key>
 			<string>Opera Beta</string>
 			<key>xpos</key>
-			<integer>550</integer>
+			<real>550</real>
 			<key>ypos</key>
-			<integer>720</integer>
+			<real>720</real>
 		</dict>
 		<key>9DC4528B-E0EE-40CE-8594-C3F1F1B512CB</key>
 		<dict>
 			<key>note</key>
 			<string>Safari</string>
 			<key>xpos</key>
-			<integer>570</integer>
+			<real>570</real>
 			<key>ypos</key>
-			<integer>450</integer>
+			<real>450</real>
 		</dict>
 		<key>A5DC0789-027C-4177-BACF-CE2E7C089CA7</key>
 		<dict>
 			<key>note</key>
 			<string>Brave</string>
 			<key>xpos</key>
-			<integer>550</integer>
+			<real>550</real>
 			<key>ypos</key>
-			<integer>1010</integer>
+			<real>1010</real>
 		</dict>
 		<key>A9672888-73C0-4D89-A497-B85E986C1D50</key>
 		<dict>
 			<key>xpos</key>
-			<integer>450</integer>
+			<real>450</real>
 			<key>ypos</key>
-			<integer>1080</integer>
+			<real>1080</real>
 		</dict>
 		<key>A9ABD10A-3146-4A01-8965-1EED64F15DD1</key>
 		<dict>
 			<key>note</key>
 			<string>Opera Dev</string>
 			<key>xpos</key>
-			<integer>550</integer>
+			<real>550</real>
 			<key>ypos</key>
-			<integer>870</integer>
+			<real>870</real>
+		</dict>
+		<key>AD78D876-2E08-4D08-AEBC-73EEEACE1C7F</key>
+		<dict>
+			<key>xpos</key>
+			<real>730</real>
+			<key>ypos</key>
+			<real>420</real>
 		</dict>
 		<key>BBE27144-1C88-4DB4-BCF3-B4E7CCE3A14B</key>
 		<dict>
 			<key>xpos</key>
-			<integer>230</integer>
+			<real>230</real>
 			<key>ypos</key>
-			<integer>350</integer>
+			<real>350</real>
 		</dict>
 		<key>BD656024-B882-41AD-9F20-DCE01B327732</key>
 		<dict>
 			<key>xpos</key>
-			<integer>440</integer>
+			<real>440</real>
 			<key>ypos</key>
-			<integer>670</integer>
+			<real>670</real>
 		</dict>
 		<key>C44F13D3-3A11-4292-BD0F-0F36F322D6DE</key>
 		<dict>
 			<key>xpos</key>
-			<integer>710</integer>
+			<real>730</real>
 			<key>ypos</key>
-			<integer>270</integer>
+			<real>275</real>
 		</dict>
 		<key>CBC5D8A8-255D-4E28-BE50-D7B19EE45B5F</key>
 		<dict>
 			<key>xpos</key>
-			<integer>440</integer>
+			<real>440</real>
 			<key>ypos</key>
-			<integer>910</integer>
+			<real>910</real>
 		</dict>
 		<key>D6DE9E5D-7883-4216-B28B-1D762E60364A</key>
 		<dict>
 			<key>note</key>
 			<string>iTerm</string>
 			<key>xpos</key>
-			<integer>785</integer>
+			<real>805</real>
 			<key>ypos</key>
-			<integer>240</integer>
+			<real>245</real>
 		</dict>
 		<key>DE26058B-66D8-464C-B116-3C36FC69D3FA</key>
 		<dict>
 			<key>xpos</key>
-			<integer>230</integer>
+			<real>230</real>
 			<key>ypos</key>
-			<integer>210</integer>
+			<real>210</real>
 		</dict>
 		<key>DFDD4CE8-9ED6-40D8-8E11-7B5104273C26</key>
 		<dict>
 			<key>xpos</key>
-			<integer>450</integer>
+			<real>450</real>
 			<key>ypos</key>
-			<integer>590</integer>
+			<real>590</real>
 		</dict>
 		<key>F6142494-8ED8-4369-9BE3-555D11956DD7</key>
 		<dict>
 			<key>xpos</key>
-			<integer>410</integer>
+			<real>410</real>
 			<key>ypos</key>
-			<integer>120</integer>
+			<real>120</real>
 		</dict>
 		<key>F9DFD058-DFE7-4C1C-BC68-1DFAE864F813</key>
 		<dict>
 			<key>note</key>
 			<string>Safari Tech Preview</string>
 			<key>xpos</key>
-			<integer>570</integer>
+			<real>570</real>
 			<key>ypos</key>
-			<integer>320</integer>
+			<real>320</real>
 		</dict>
 		<key>FA71F597-12C1-4357-B3CB-D8A7CDA00BB9</key>
 		<dict>
 			<key>note</key>
 			<string>Other Apps (No Tabs Support)</string>
 			<key>xpos</key>
-			<integer>230</integer>
+			<real>230</real>
 			<key>ypos</key>
-			<integer>610</integer>
+			<real>610</real>
 		</dict>
 	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>0.4.2-cdzombak</string>
+	<string>0.5.0-cdzombak</string>
 	<key>webaddress</key>
-	<string>https://github.com/cdzombak/AlfredSwitchWindows</string>
+	<string>mandrigin.ru</string>
 </dict>
 </plist>
