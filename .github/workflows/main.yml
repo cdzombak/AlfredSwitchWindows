@@ -12,9 +12,6 @@ name: CI
     branches:
       - "master"
 
-permissions:
-  contents: read
-
 env:
   WORKFLOW_NAME: "AlfredSwitchWindows"
 
