@@ -169,6 +169,8 @@ jobs:
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: out/${{ needs.meta.outputs.bin_name }}.dmg
           prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
