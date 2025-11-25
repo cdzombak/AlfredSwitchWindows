@@ -1,6 +1,25 @@
+# Xcode
 EnumWindows.xcodeproj/xcuserdata/
+xcuserdata/
+build/
+DerivedData/
+
+# Editor files
 *.swp
 *.un~
+
+# Build artifacts
 EnumWindows/EnumWindows
-xcuserdata/
+out/
+.pkg/
 build.log
+
+# Built binary in workflow directory (built by CI now)
+AlfredWorkflow/EnumWindows
+
+# Release artifacts
+*.alfredworkflow
+*.dmg
+
+# macOS
+.DS_Store

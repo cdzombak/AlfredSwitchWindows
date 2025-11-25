@@ -1,0 +1,196 @@
+---
+name: CI
+
+"on":
+  push:
+    branches:
+      - "master"
+    tags:
+      - "v*.*.*"
+      - "v*.*.*-*"
+  pull_request:
+    branches:
+      - "master"
+
+permissions:
+  contents: read
+
+env:
+  WORKFLOW_NAME: "AlfredSwitchWindows"
+
+jobs:
+  meta:
+    name: Derive Build Metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Derive version string
+        id: bin_version
+        run: echo "bin_version=$(./.version.sh)" >> "$GITHUB_OUTPUT"
+      - name: bin_version
+        run: "echo bin_version: ${{ steps.bin_version.outputs.bin_version }}"
+      - name: Check if this is a running version tag update
+        id: running_version_tag
+        run: |
+          if [ -z "${{ github.event.ref }}" ]; then
+              echo "is_running_version_tag_update=false" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.event.ref }}" =~ ^refs/tags/v[0-9]+\.[0-9]+$ ]]; then
+              echo "is_running_version_tag_update=true" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.event.ref }}" =~ ^refs/tags/v[0-9]+$ ]]; then
+              echo "is_running_version_tag_update=true" >> "$GITHUB_OUTPUT"
+          else
+              echo "is_running_version_tag_update=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: is_running_version_tag
+        run: "echo is_running_version_tag_update: ${{ steps.running_version_tag.outputs.is_running_version_tag_update }}"
+    outputs:
+      project_name: ${{ env.WORKFLOW_NAME }}
+      bin_name: ${{ env.WORKFLOW_NAME }}-${{ steps.bin_version.outputs.bin_version }}.alfredworkflow
+      bin_version: ${{ steps.bin_version.outputs.bin_version }}
+      is_prerelease: >-
+        ${{
+          steps.running_version_tag.outputs.is_running_version_tag_update != 'true' &&
+          startsWith(github.ref, 'refs/tags/v') &&
+            (contains(github.ref, '-alpha')
+            || contains(github.ref, '-beta')
+            || contains(github.ref, '-rc'))
+        }}
+      is_release: >-
+        ${{
+          steps.running_version_tag.outputs.is_running_version_tag_update != 'true' &&
+          startsWith(github.ref, 'refs/tags/v') &&
+            !(contains(github.ref, '-alpha')
+            || contains(github.ref, '-beta')
+            || contains(github.ref, '-rc'))
+        }}
+      is_pull_request: ${{ github.event_name == 'pull_request' }}
+      is_running_version_tag_update: ${{ steps.running_version_tag.outputs.is_running_version_tag_update }}
+
+  build:
+    name: Build Workflow
+    needs: [meta]
+    if: needs.meta.outputs.is_running_version_tag_update != 'true'
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build EnumWindows binary
+        run: make build
+
+      - name: Sign EnumWindows binary
+        if: >-
+          needs.meta.outputs.is_release == 'true' ||
+          needs.meta.outputs.is_prerelease == 'true'
+        working-directory: out
+        env:
+          DEVID_SIGNING_CERT_BASE64: ${{ secrets.DEVID_SIGNING_CERT }}
+          DEVID_SIGNING_CERT_PASS: ${{ secrets.DEVID_SIGNING_CERT_PASS }}
+          DEVID_SIGNING_CERT_ID: ${{ secrets.DEVID_SIGNING_CERT_ID }}
+          KEYCHAIN_PASS: ${{ secrets.KEYCHAIN_PASS }}
+        run: |
+          security create-keychain -p "$KEYCHAIN_PASS" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASS" build.keychain
+          echo "$DEVID_SIGNING_CERT_BASE64" | base64 --decode > certificate.p12
+          security import certificate.p12 -k build.keychain -P "$DEVID_SIGNING_CERT_PASS" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASS" build.keychain
+          /usr/bin/codesign --force --timestamp --options=runtime -s "$DEVID_SIGNING_CERT_ID" ./EnumWindows -v
+
+      - name: Verify code signature
+        if: >-
+          needs.meta.outputs.is_release == 'true' ||
+          needs.meta.outputs.is_prerelease == 'true'
+        run: codesign -dv --verbose=4 ./out/EnumWindows
+
+      - name: Build workflow package
+        run: make package
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.meta.outputs.bin_name }}
+          path: out
+
+  release:
+    name: GitHub Release
+    needs: [meta, build]
+    if: >-
+      needs.meta.outputs.is_release == 'true' ||
+      needs.meta.outputs.is_prerelease == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download workflow artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.meta.outputs.bin_name }}
+          path: out
+
+      - name: List artifacts
+        run: ls -la out/
+
+      - name: Create .dmg
+        working-directory: out
+        run: |
+          mkdir ./.dmg-src
+          xattr -cr ./.dmg-src
+          cp "${{ needs.meta.outputs.bin_name }}" ./.dmg-src/
+          hdiutil create -srcfolder ./.dmg-src \
+            -fs "HFS+" \
+            -volname "${{ needs.meta.outputs.project_name }}" \
+            "./${{ needs.meta.outputs.bin_name }}.dmg"
+          hdiutil verify "./${{ needs.meta.outputs.bin_name }}.dmg"
+
+      - name: Notarize .dmg
+        working-directory: out
+        env:
+          NOTARIZATION_APPLE_ID: ${{ secrets.NOTARIZATION_APPLE_ID }}
+          NOTARIZATION_TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
+          NOTARIZATION_PASS: ${{ secrets.NOTARIZATION_PASS }}
+        run: |
+          xcrun notarytool store-credentials "notarytool-profile" \
+            --apple-id "$NOTARIZATION_APPLE_ID" \
+            --team-id "$NOTARIZATION_TEAM_ID" \
+            --password "$NOTARIZATION_PASS"
+          xcrun notarytool submit "./${{ needs.meta.outputs.bin_name }}.dmg" --keychain-profile "notarytool-profile" --wait
+          xcrun stapler staple "./${{ needs.meta.outputs.bin_name }}.dmg"
+
+      - name: Upload notarized .dmg artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.meta.outputs.bin_name }}.dmg
+          path: out/${{ needs.meta.outputs.bin_name }}.dmg
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: out/${{ needs.meta.outputs.bin_name }}.dmg
+          prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+
+  tags:
+    name: Update Release Tags
+    needs: [meta, release]
+    if: needs.meta.outputs.is_release == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Update running major/minor version tags
+        uses: sersoft-gmbh/running-release-tags-action@v3
+        with:
+          fail-on-non-semver-tag: true
+          create-release: false
+          update-full-release: false
