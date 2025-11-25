@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>ru.mandrigin.alfred.sww</string>
+	<string>com.dzombak.alfred.sww</string>
 	<key>connections</key>
 	<dict>
 		<key>0486C218-68A8-4897-8F4E-B51741037678</key>
@@ -292,7 +292,7 @@
 		</array>
 	</dict>
 	<key>createdby</key>
-	<string>Igor Mandrigin</string>
+	<string>Chris Dzombak, Igor Mandrigin</string>
 	<key>description</key>
 	<string>Switch between windows &amp; tabs on the same desktop</string>
 	<key>disabled</key>
@@ -1276,6 +1276,6 @@ Inspration is taken from &quot;Windows Switcher&quot; workflow from Emanuele Mun
 	<key>version</key>
 	<string>0.5.0-cdzombak</string>
 	<key>webaddress</key>
-	<string>mandrigin.ru</string>
+	<string>https://github.com/cdzombak/AlfredSwitchWindows</string>
 </dict>
 </plist>
