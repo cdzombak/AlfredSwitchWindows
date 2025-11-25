@@ -31,6 +31,9 @@ build: ## Build the EnumWindows universal binary
 		-derivedDataPath ./build/arm64 \
 		ONLY_ACTIVE_ARCH=NO \
 		BUILD_DIR=./build/arm64 \
+		CODE_SIGN_IDENTITY="" \
+		CODE_SIGNING_REQUIRED=NO \
+		CODE_SIGNING_ALLOWED=NO \
 		clean build
 	# Build for x86_64
 	xcodebuild -project $(XCODE_PROJECT) \
@@ -40,6 +43,9 @@ build: ## Build the EnumWindows universal binary
 		-derivedDataPath ./build/x86_64 \
 		ONLY_ACTIVE_ARCH=NO \
 		BUILD_DIR=./build/x86_64 \
+		CODE_SIGN_IDENTITY="" \
+		CODE_SIGNING_REQUIRED=NO \
+		CODE_SIGNING_ALLOWED=NO \
 		clean build
 	# Create universal binary
 	lipo -create \
