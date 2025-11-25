@@ -2,6 +2,26 @@ import Foundation
 import ApplicationServices
 import CoreGraphics
 
+/// An Alfred item that displays an error message to the user
+struct ErrorAlfredItem: AlfredItem {
+    let title: String
+    let subtitle: String
+
+    var uid: String { return "error" }
+    var arg: AlfredArg { return AlfredArg(arg1: "", arg2: "", arg3: "") }
+    var autocomplete: String { return "" }
+    var icon: String { return "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertStopIcon.icns" }
+    var processName: String { return "" }
+    var tabIndex: Int { return 0 }
+}
+
+/// Outputs an error message as an Alfred item and exits
+func exitWithError(title: String, subtitle: String) -> Never {
+    let errorItem = ErrorAlfredItem(title: title, subtitle: subtitle)
+    print(AlfredDocument(withItems: [errorItem]).xml.xmlString)
+    exit(1)
+}
+
 /// Removes browser window from the list of windows and adds tabs to the results array
 func searchBrowserTabsIfNeeded(processName: String,
                                windows: [WindowInfoDict],
@@ -67,28 +87,20 @@ func search(query: String, onlyTabs: Bool) {
     print(AlfredDocument(withItems: alfredItems).xml.xmlString)
 }
 
-func handleCatalinaScreenRecordingPermission() {
-    guard let firstWindow = Windows.any else {
-        return
-    }
-
-    guard !firstWindow.hasName else {
-        return
-    }
-    
-    let permissionMessage = "Before using this app, you need to give permission in System Preferences > Security & Privacy > Privacy > Screen Recording.\nPlease authorize and re-launch."
-    
+func checkScreenRecordingPermission() {
     guard #available(macOS 10.15, *) else {
         return
     }
-    
+
     guard CGPreflightScreenCaptureAccess() else {
-        debugPrint(permissionMessage)
-        exit(1)
+        exitWithError(
+            title: "Screen Recording Permission Required",
+            subtitle: "Grant permission to Alfred in System Settings > Privacy & Security > Screen Recording"
+        )
     }
 }
 
-handleCatalinaScreenRecordingPermission()
+checkScreenRecordingPermission()
 
 /*
  a naive perf test, decided to keep it here for convenience
