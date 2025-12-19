@@ -251,7 +251,8 @@ fileprivate struct NativeTabWindow {
     }
     
     var tabs: [NativeAppTab] {
-        let windowTitle = axString(element, attribute: kAXTitleAttribute as CFString) ?? processName
+        let rawWindowTitle = axString(element, attribute: kAXTitleAttribute as CFString) ?? processName
+        let windowTitle = rawWindowTitle.isEmpty ? processName : rawWindowTitle
 
         if let tabsFromWindow = tabs(from: element, windowTitle: windowTitle), !tabsFromWindow.isEmpty {
             return tabsFromWindow
@@ -264,7 +265,10 @@ fileprivate struct NativeTabWindow {
             }
         }
 
-        return []
+        return [NativeAppTab(processName: processName,
+                             windowTitle: windowTitle,
+                             tabTitle: windowTitle,
+                             tabIndex: 0)]
     }
 
     private func tabs(from element: AXUIElement, windowTitle: String) -> [NativeAppTab]? {
